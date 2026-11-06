@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ product.name }} | Campus Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Edit Product</h1>
+
+    <a href="{% url 'products:product-detail' product.id %}"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</div>
+
+<div class="panel">
+
+    <h2>{{ product.name }}</h2>
+
+    {% if product.image %}
+        <div style="margin-bottom: 25px;">
+            <p><strong>Current Image</strong></p>
+
+            <img src="{{ product.image.url }}"
+                 alt="{{ product.name }}"
+                 style="max-width: 250px; max-height: 250px;
+                        object-fit: contain;">
+        </div>
+    {% endif %}
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+
+            <div class="form-group">
+
+                {{ field.label_tag }}
+
+                {{ field }}
+
+                {% if field.help_text %}
+                    <small class="muted">
+                        {{ field.help_text }}
+                    </small>
+                {% endif %}
+
+                {% if field.errors %}
+                    <div class="form-errors">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">
+            Update Product
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product | Campus Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Add a New Product</h1>
+
+    <a href="{% url 'products:product-list' %}"
+       class="btn btn-secondary">
+        Cancel
+    </a>
+</div>
+
+<div class="panel">
+
+    <form method="POST"
+          enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+
+            <div class="form-group">
+
+                {{ field.label_tag }}
+
+                {{ field }}
+
+                {% if field.help_text %}
+                    <small class="muted">
+                        {{ field.help_text }}
+                    </small>
+                {% endif %}
+
+                {% if field.errors %}
+                    <div class="form-errors">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">
+            Save Product
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

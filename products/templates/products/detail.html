@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Campus Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>Product Details</h1>
+
+    <a href="{% url 'products:product-list' %}"
+       class="btn btn-secondary">
+        Back to Products
+    </a>
+</div>
+
+<div class="panel">
+
+    <div style="display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;">
+
+        <div>
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="product-image">
+            {% else %}
+                <p class="muted">No image available.</p>
+            {% endif %}
+        </div>
+
+        <div>
+            <h2>{{ product.name }}</h2>
+
+            <p class="price">
+                KSh {{ product.price|floatformat:2 }}
+            </p>
+
+            <p>
+                <strong>Category:</strong>
+                {{ product.category.name }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+            </p>
+
+            <p>{{ product.description|linebreaks }}</p>
+
+            <p>
+                <strong>Stock available:</strong>
+                {{ product.stock }}
+            </p>
+
+            <p>
+                <strong>Added on:</strong>
+                {{ product.created_at|date:"d M Y" }}
+            </p>
+
+            <div style="margin-top: 25px;">
+
+                <a href="{% url 'products:product-update' product.id %}"
+                   class="btn">
+                    Edit Product
+                </a>
+
+                <a href="{% url 'products:product-delete' product.id %}"
+                   class="btn btn-danger">
+                    Delete Product
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

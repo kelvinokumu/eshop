@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ product.name }} | Campus Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="panel" style="max-width: 600px; margin: 40px auto;">
+
+    <h1>Delete Product</h1>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ product.name }}</strong>?
+    </p>
+
+    {% if product.image %}
+        <div style="margin: 20px 0;">
+            <img src="{{ product.image.url }}"
+                 alt="{{ product.name }}"
+                 style="max-width: 200px; max-height: 200px;
+                        object-fit: contain;">
+        </div>
+    {% endif %}
+
+    <p class="muted">
+        This action cannot be undone.
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-danger">
+            Yes, Delete Product
+        </button>
+
+        <a href="{% url 'products:product-detail' product.id %}"
+           class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

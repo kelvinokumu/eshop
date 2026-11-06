@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Products | Campus Marketplace{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Our Products</h1>
+        <p class="muted">Discover products available in the marketplace.</p>
+    </div>
+
+    <a href="{% url 'products:product-create' %}" class="btn">
+        + Add Product
+    </a>
+</div>
+
+<div class="product-grid">
+
+    {% for product in products %}
+
+        <div class="product-card">
+
+            {% if product.image %}
+                <a href="{% url 'products:product-detail' product.id %}">
+                    <img src="{{ product.image.url }}"
+                         alt="{{ product.name }}">
+                </a>
+            {% else %}
+                <div style="height: 190px; display: grid; place-items: center;
+                            background: #eef1f5; margin-bottom: 12px;">
+                    <span class="muted">No image available</span>
+                </div>
+            {% endif %}
+
+            <h3>{{ product.name }}</h3>
+
+            <p class="muted">
+                Category: {{ product.category.name }}
+            </p>
+
+            <p class="price">
+                KSh {{ product.price|floatformat:2 }}
+            </p>
+
+            <p>
+                {% if product.stock > 0 %}
+                    In stock: {{ product.stock }}
+                {% else %}
+                    <span style="color: #c0392b;">Out of stock</span>
+                {% endif %}
+            </p>
+
+            <a href="{% url 'products:product-detail' product.id %}"
+               class="btn">
+                View Details
+            </a>
+
+            <a href="{% url 'products:product-update' product.id %}"
+               class="btn btn-secondary">
+                Edit
+            </a>
+
+        </div>
+
+    {% empty %}
+
+        <p>No products have been added yet.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
